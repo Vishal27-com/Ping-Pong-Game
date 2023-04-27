@@ -1,0 +1,12 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+#cont{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #a49e9e;
+}
+
