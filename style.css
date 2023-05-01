@@ -1,6 +1,7 @@
 body{
     margin: 0;
     padding: 0;
+    font-family: sans;
 }
 #cont{
     min-height: 100vh;
@@ -9,4 +10,21 @@ body{
     align-items: center;
     background: #a49e9e;
 }
-
+#result{
+    width: 100vw;
+    height: 90vh;
+    display:none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#btn{
+    border: 0;
+    font-size: 20px;
+    padding: 10px 20px;
+    background: rgb(9, 248, 9);
+    border-radius: 10px;
+    color: #fff;
+    letter-spacing: 1px;
+    cursor: pointer;
+}

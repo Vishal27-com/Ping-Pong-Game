@@ -88,28 +88,67 @@ function collision(b,p){
     b.right=b.x +b.r;
 
     p.top=p.y;
-    p.bottom=p.y + p.height;
+    p.bottom=p.y + p.h;
     p.left=p.x;
-    p.right=p.x+width;
+    p.right=p.x+p.w;
 
-    return p.right > b.left &&
+    return (p.right > b.left &&
     p.left < b.right && 
     b.bottom > p.top &&
-    b.top<p.bottom
+    b.top<p.bottom)
 
 }
-
-
+// gameover
+function gameOver(){
+// hide canvas
+canvas.style.display='none'
+const can=document.getElementById('cont');
+can.style.display='none'
+// result
+const result=document.getElementById('result');
+result.style.display='flex'
+}
 
 function update(){
-    ball.x+=ball.velocityX;
-    ball.y+=ball.velocityY;
+    ball.x+=ball.velocityX*ball.speed;
+    ball.y+=ball.velocityY*ball.speed;
+    // control the computer paddle
+    let computerLevel=0.1
+     comp.x+=(ball.x -(comp.x+comp.w/2))+computerLevel
+     if(ball.speed>2){
+        comp.x+=ball.x+100;
+     }
+    // reflect from wall
     if(ball.x+ball.r>canvas.width || ball.x-ball.r<0){
         ball.velocityX=-ball.velocityX;
     }
-    // if(ball.y+ball.r>canvas.height || ball.y-ball.r<0){
-    //     ball.velocityY=-ball.velocityY;
-    // }
+    // if collision happens
+    let player=(ball.y<canvas.height/2)?comp:user;
+    if(collision(ball,player)){
+        ball.velocityY=-ball.velocityY;
+        ball.speed+=0.1
+    }
+    if(ball.y-ball.r<0){
+        user.score++;
+        resetBall()
+    }
+    else if(ball.y+ball.r>canvas.height){
+        comp.score++;
+        resetBall()
+    }
+    // gameover
+    if(user.score>4 || comp.score>4){
+        clearInterval(loop)
+        gameOver()
+    }
+}
+
+function resetBall(){
+    ball.x=canvas.width/2
+    ball.y=canvas.height/2
+
+    ball.speed=1
+    ball.velocityY=-ball.velocityY
 }
 
 function startGame(){
@@ -117,7 +156,7 @@ function startGame(){
     render()
 }
 
-setInterval(()=>{
+const loop=setInterval(()=>{
 startGame()
 },1000/50)
 
